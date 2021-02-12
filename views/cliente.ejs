@@ -1,0 +1,177 @@
+<div class="row mt-5">
+    <div class="col-xl-6 col-md-12 m-auto">
+      <div class="card card-body">
+        <h1 class="text-center mb-3">
+          <i class="fas fa-user"></i> Información
+        </h1>
+        <%- include ('./partials/messages') %>
+        <form action="/users/cliente" method="POST" enctype="multipart/form-data"> 
+          <div class="form-group">
+            <label for="nombre">Nombre*</label>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              class="form-control"
+              placeholder="Nombre"
+              value="<%= typeof nombre != 'undefined' ? nombre : '' %>"
+              required
+            />
+            
+          </div>
+          <div class="form-group">
+            <label for="apellido1">Primer Apellido*</label>
+            <input
+              type="text"
+              id="apellido1"
+              name="apellido1"
+              class="form-control"
+              placeholder="Primer Apellido"
+              value="<%= typeof apellido1 != 'undefined' ? apellido1 : '' %>"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="apellido2">Segundo Apellido</label>
+            <input
+              type="text"
+              id="apellido2"
+              name="apellido2"
+              class="form-control"
+              placeholder="Segundo Apellido"
+              value="<%= typeof apellido2 != 'undefined' ? apellido2 : '' %>"
+            />
+          </div>
+          <div class="form-group">
+            <label for="numero">Número*</label>
+            <input
+              type="numero"
+              id="numero"
+              name="numero"
+              class="form-control"
+              placeholder="Número"
+              value="<%= typeof numero != 'undefined' ? numero : '' %>"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="calle">Calle*</label>
+            <input
+              type="text"
+              id="calle"
+              name="calle"
+              class="form-control"
+              placeholder="Calle"
+              value="<%= typeof calle != 'undefined' ? calle : '' %>"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="colonia">Colonia*</label>
+            <input
+              type="text"
+              id="colonia"
+              name="colonia"
+              class="form-control"
+              placeholder="Colonia"
+              value="<%= typeof colonia != 'undefined' ? colonia : '' %>"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="codigop">Código Postal*</label>
+            <input
+              type="text"
+              id="codigop"
+              name="codigop"
+              class="form-control"
+              placeholder="Código Postal"
+              value="<%= typeof codigop != 'undefined' ? codigop : '' %>"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="telefono">Teléfono*</label>
+            <input
+              type="tel"
+              id="telefono"
+              name="telefono"
+              class="form-control"
+              placeholder="Teléfono"
+              value="<%= typeof telefono != 'undefined' ? telefono : '' %>"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="rfc">RFC*</label>
+            <input
+              type="text"
+              id="rfc"
+              name="rfc"
+              class="form-control"
+              placeholder="RFC"
+              value="<%= typeof rfc != 'undefined' ? rfc : '' %>"
+              required
+            />
+          </div>
+          <hr>
+          <div class="mb-2">
+            <small>En caso de necesitar multiples, seleccionar al mismo tiempo </small>
+          </div>
+          <div class="custom-file mb-3">
+            <input
+            type="file"
+            id="documentos"
+            name="documentos"
+            class="custom-file-input"
+            value="<%= typeof documentos != 'undefined' ? documentos : '' %>"
+            required
+            onchange="javascript:updateList()"
+            multiple
+          />
+          <label for="file" class="custom-file-label">Seleccionar Documento(s)</label>
+          </div>
+          <div id="fileList"></div>
+          <button onclick="myFunction()" type="submit" class="btn btn-primary btn-block">
+            Enviar
+          </button>
+        </form>
+        <!-- Button trigger modal -->
+<button type="button" class="mt-3 btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+  Salir
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Su información no se guardara si sale de esta pagina
+      </div>
+      <div class="modal-footer">
+        <button  type="button" class="btn btn-secondary" data-dismiss="modal">Quedar</button>
+        <a href="/"><button type="button" class="btn btn-primary">Salir</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+  </div> 
+  <script>
+    updateList = function() {
+    var input = document.getElementById('documentos');
+    var output = document.getElementById('fileList');
+    var children = "";
+    for (var i = 0; i < input.files.length; ++i) {
+        children += '<li>' + input.files.item(i).name + '</li>';
+    }
+    output.innerHTML = '<ul>'+children+'</ul>';
+}
+    </script>

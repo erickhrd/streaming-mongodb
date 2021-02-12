@@ -1,0 +1,105 @@
+<div class="vw-100 row mt-5">
+    <div class="col-md-6 col-sm-12 m-auto">
+      <div class="card card-body text-center">
+        <h1><i class="fas fa-user-plus fa-3x"></i></h1>
+        <h1 class="mt-4">Evaluador Dashboard</h1>
+        <p class="lead mb-3">Bienvenido <%= name %></p>
+        <a href="/users/logout" class="btn btn-secondary">Logout</a>
+      </div>
+    </div>
+  </div>
+  <div class="vw-100 row mt-4">
+    <div class="col-12">
+      <div class="card card-body text-center">
+        <%- include ('./partials/messages') %>
+        <h1 class="mt-2">Información de Clientes</h1>
+        <div class="container-fluid">
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th class="align-middle" scope="col">Nombre</th>
+                <th class="align-middle" scope="col">Primer Apellido</th>
+                <th class="align-middle" scope="col">Segundo Apellido</th>
+                <th class="align-middle" scope="col">Estatus</th>
+                <th class="align-middle">Observaciones</th>
+                <th class="align-middle">Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%clientes.forEach(function(cliente){%>
+                <tr id="tr<%=cliente._id%>" class="table-secondary">
+                    <td class="align-middle"><%= cliente.nombre %></td>
+                    <td class="align-middle"><%= cliente.apellido1 %></td>
+                    <td class="align-middle"><%= cliente.apellido2 %></td>
+                    <td class="align-middle">
+                        <form action="/users/dashboard" method="POST">
+                            <select class="w-100" id="estatus<%=cliente._id%>" name="estatus">
+                              <option value="Enviado" selected>Enviado</option>
+                              <option value="Aceptado">Aceptado</option>
+                              <option value="Rechazado">Rechazado</option>
+                            </select>
+                            <input class="d-none" name="estatusid" value="<%=cliente._id%>">
+                            <input class="btn btn-primary mt-2" type="submit" value="Submit">
+                            </form>
+                     </td>
+                    <td class="align-middle">
+                        <form action="/users/dashboard/observaciones" method="POST">
+                            <textarea class="form-control input" id="observaciones<%=cliente._id%>" name="observaciones" value="">
+                            </textarea>
+                            <input class="d-none" name="observacionesid" value="<%=cliente._id%>">
+                            <input class="btn btn-primary mt-1" type="submit" value="Submit">
+                            </form>
+                    </td>
+                    <td class="align-middle">
+                      <p>
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample<%=cliente._id %>" aria-expanded="false" aria-controls="collapseExample<%=cliente._id %>">
+                          Mas Informacion
+                        </button>
+                      </p>
+                      <div class="collapse" id="collapseExample<%=cliente._id %>">
+                        <div class="card card-body text-dark">
+                          <p><span class="font-weight-bold">Calle: </span><%= cliente.calle %></p>
+                          <p><span class="font-weight-bold">Numero: </span><%= cliente.numero %></p>
+                          <p><span class="font-weight-bold">Colonia: </span><%= cliente.colonia %></p>
+                          <p><span class="font-weight-bold">Codigo Postal: </span><%= cliente.codigop %></p>
+                          <p><span class="font-weight-bold">Telefono: </span><%= cliente.telefono %></p>
+                          <p><span class="font-weight-bold">RFC: </span><%= cliente.rfc %></p>
+                          <p><span class="font-weight-bold">Documentos:</span> <%cliente.documentos.forEach(function(display){%>
+                            <li><%=display.originalname%></li>
+                             <a href="/users/display/<%=display.filename%>" 
+                             download="Documentos-<%= cliente.nombre %>-<%= cliente.apellido1 %>"><button class="btn btn-primary" type="submit">Descargar</button></a></p><%})%>
+                        </div>
+                      </div>
+                    </td>
+                </tr>
+                <%evaluadors.forEach(function(evaluador){%>
+                  <%if(cliente._id == evaluador.estatusid){%>
+                <script>
+                  document.getElementById('estatus<%=cliente._id%>').value='<%=evaluador.estatus%>';
+                </script>
+                    <%if(evaluador.estatus == 'Aceptado'){%>
+                      <script>
+                          document.getElementById('tr<%=cliente._id%>').className='table-success'
+                      </script>
+                      <%}%>
+                      <%if(evaluador.estatus == 'Rechazado'){%>
+                        <script>
+                            document.getElementById('tr<%=cliente._id%>').className='table-danger'
+                        </script>
+                        <%}%>
+                <%}%>
+                <%if(cliente._id == evaluador.observacionesid){%>
+                <script>
+                  document.getElementById('observaciones<%=cliente._id%>').value='<%=evaluador.observaciones%>'
+                </script>
+                <%}%>
+                <%})%>
+                <%})%>
+               
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
